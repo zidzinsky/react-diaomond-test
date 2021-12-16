@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import yup from 'yup';
+import * as yup from 'yup';
 import { Formik } from 'formik';
 import { Button, Form, Row, Col, FloatingLabel } from 'react-bootstrap';
 
@@ -27,18 +27,19 @@ export default function Home() {
       </h1>
 
       <Formik
+        validateOnMount={true}
         validationSchema={schema}
         onSubmit={console.log}
         initialValues={{
-          carat: '',
-          color: '',
-          cut: '',
-          clarity: '',
+          carat: null,
+          color: null,
+          cut: null,
+          clarity: null,
         }}
       >
-        {({ handleSubmit, handleChange, values, touched, isValid, errors }) => (
+        {({ handleSubmit, handleChange, values, touched, isSubmitting, errors }) => (
           <Form noValidate onSubmit={handleSubmit}>
-            <Row className="g-2">
+            <Row className="g-2 mb-4">
               <Form.Group as={Col} md="6" controlId="validationCarat" className="position-relative">
                 <FloatingLabel label="Carats">
                   <Form.Control
@@ -53,7 +54,8 @@ export default function Home() {
               </Form.Group>
               <Form.Group as={Col} md="6" controlId="validationColor" className="position-relative">
                 <FloatingLabel label="Color">
-                  <Form.Select aria-label="Select a color">
+                  <Form.Select name="color" value={values.color} onChange={handleChange} aria-label="Select a color">
+                    <option value="">Select a color</option>
                     <option value="D">D</option>
                     <option value="E">E</option>
                     <option value="F">F</option>
@@ -67,10 +69,11 @@ export default function Home() {
                 <Form.Control.Feedback tooltip>Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Row>
-            <Row className="g-2">
+            <Row className="g-2 mb-4">
               <Form.Group as={Col} md="6" controlId="validationCut" className="position-relative">
                 <FloatingLabel label="Cut">
-                  <Form.Select aria-label="Select a Cut">
+                  <Form.Select name="cut" value={values.cut} onChange={handleChange} aria-label="Select a Cut">
+                    <option value="">Select a cut</option>
                     <option value="Round">Round</option>
                     <option value="Triangle">Triangle</option>
                     <option value="Oval">Oval</option>
@@ -83,7 +86,13 @@ export default function Home() {
               </Form.Group>
               <Form.Group as={Col} md="6" controlId="validationClarity" className="position-relative">
                 <FloatingLabel label="Clarity">
-                  <Form.Select aria-label="Select a Clarity">
+                  <Form.Select
+                    name="clarity"
+                    value={values.clarity}
+                    onChange={handleChange}
+                    aria-label="Select a Clarity"
+                  >
+                    <option value="">Select a clarity</option>
                     <option value="IF">IF</option>
                     <option value="VVS1">VVS1</option>
                     <option value="VVS2">VVS2</option>
@@ -97,7 +106,9 @@ export default function Home() {
                 <Form.Control.Feedback tooltip>Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Row>
-            <Button type="submit">Calculate</Button>
+            <Button variant="primary" size="lg" type="submit" disabled={Object.keys(errors).length > 0 || isSubmitting}>
+              Calculate
+            </Button>
           </Form>
         )}
       </Formik>
