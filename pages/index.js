@@ -7,7 +7,7 @@ import { Button, Form, Row, Col, FloatingLabel, Stack } from 'react-bootstrap';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 const schema = yup.object().shape({
-  carat: yup.number().required(),
+  carat: yup.number().positive().required(),
   color: yup.string().required(),
   cut: yup.string().required(),
   clarity: yup.string().required(),
@@ -78,6 +78,7 @@ export default function Home() {
                   <Form.Control
                     type="number"
                     name="carat"
+                    min={0}
                     value={values.carat}
                     onChange={handleChange}
                     isValid={touched.firstName && !errors.firstName}
