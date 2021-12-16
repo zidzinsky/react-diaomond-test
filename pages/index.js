@@ -2,7 +2,7 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import * as yup from 'yup';
 import { Formik } from 'formik';
-import { Button, Form, Row, Col, FloatingLabel } from 'react-bootstrap';
+import { Button, Form, Row, Col, FloatingLabel, Stack } from 'react-bootstrap';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -106,9 +106,16 @@ export default function Home() {
                 <Form.Control.Feedback tooltip>Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Row>
-            <Button variant="primary" size="lg" type="submit" disabled={Object.keys(errors).length > 0 || isSubmitting}>
-              Calculate
-            </Button>
+            <Stack className="col-md-5 mx-auto">
+              <Button
+                variant="primary"
+                size="lg"
+                type="submit"
+                disabled={Object.keys(errors).length > 0 || isSubmitting}
+              >
+                Calculate
+              </Button>
+            </Stack>
           </Form>
         )}
       </Formik>
